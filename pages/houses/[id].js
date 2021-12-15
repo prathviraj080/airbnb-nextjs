@@ -20,6 +20,7 @@ const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
 }
 
 
+
 export default function House(props) {
     const [dateChosen, setDateChosen] = useState(false);
     const [numberOfNightsBetweenDates, setNumberOfNightsBetweenDates] = useState(0);
