@@ -3,6 +3,7 @@ import Head from 'next/head';
 import houses from '../../houses.js';
 import Layout from '../../components/Layout';
 import DateRangePicker from '../../components/DateRangePicker.js';
+import { useStoreActions } from 'easy-peasy';
 
 
 const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
@@ -22,6 +23,9 @@ const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
 export default function House(props) {
     const [dateChosen, setDateChosen] = useState(false);
     const [numberOfNightsBetweenDates, setNumberOfNightsBetweenDates] = useState(0);
+    const setShowLoginModal = useStoreActions(
+        (actions) => actions.modals.setShowLoginModal
+    );
     return (
         <Layout
             content={
@@ -52,7 +56,9 @@ export default function House(props) {
                                     <p>${props.house.price}</p>
                                     <h2>Total price for booking</h2>
                                     <p>${(numberOfNightsBetweenDates * props.house.price).toFixed(2)}</p>
-                                    <button className="reserve">Reserve</button>
+                                    <button className="reserve" onClick={() => {
+                                        setShowLoginModal();
+                                    }}>Reserve</button>
                                 </div>
                             )
                         }
@@ -71,17 +77,6 @@ export default function House(props) {
                         aside {
                             border: 1px solid #ccc;
                             padding: 20px;
-                        }
-
-                        button {
-                            background-color: rgb(255, 90, 95);
-                            color: white;
-                            font-size: 13px;
-                            width: 100%;
-                            border: none;
-                            height: 40px;
-                            border-radius: 4px;
-                            cursor: pointer;
                         }
                     `}
                     </style>
