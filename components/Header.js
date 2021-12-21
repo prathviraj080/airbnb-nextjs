@@ -1,37 +1,50 @@
 import Link from 'next/link';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+
 
 export default function Header(props) {
-    const setShowLoginModal = useStoreActions(
-        (actions) => actions.modals.setShowLoginModal
-    )
-    const setShowRegistrationModal = useStoreActions(
-        (actions) => actions.modals.setShowRegistrationModal
-    )
-    return (
-        <div className="nav-container">
-            <Link href="/">
-                <a>
-                    <img src="/img/logo.png" alt="" />
-                </a>
-            </Link>
+  const loggedIn = useStoreState((state) => state.login.loggedIn);
 
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#" onClick={() => setShowRegistrationModal()}>
-                            Sign up
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" onClick={() => setShowLoginModal()}>
-                            Log in
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+  const setShowLoginModal = useStoreActions(
+    (actions) => actions.modals.setShowLoginModal
+  )
+  const setShowRegistrationModal = useStoreActions(
+    (actions) => actions.modals.setShowRegistrationModal
+  )
+  return (
+    <div className="nav-container">
+      <Link href="/">
+        <a>
+          <img src="/img/logo.png" alt="" />
+        </a>
+      </Link>
 
-            <style jsx>{`
+      {loggedIn ? (
+        <nav>
+          <ul>
+            <li>
+              <a>Logged in</a>
+            </li>
+          </ul>
+        </nav>
+      ) : (
+        <nav>
+          <ul>
+            <li>
+              <a href='#' onClick={() => setShowRegistrationModal()}>
+                Sign up
+              </a>
+            </li>
+            <li>
+              <a href='#' onClick={() => setShowLoginModal()}>
+                Log in
+              </a>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      <style jsx>{`
         ul {
           margin: 0;
           padding: 0;
@@ -66,6 +79,6 @@ export default function Header(props) {
           float: right;
         }
       `}</style>
-        </div>
-    )
+    </div>
+  )
 }
